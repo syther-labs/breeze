@@ -15,24 +15,16 @@ object Common {
     }
   }
 
-  val buildCrossScalaVersions = Seq("3.1.0", "2.12.15", "2.13.7")
+  val buildCrossScalaVersions = Seq("3.1.0")
 
   lazy val buildScalaVersion = buildCrossScalaVersions.head
 
   val commonSettings = Seq(
-    organization := "org.scalanlp",
     scalaVersion := buildScalaVersion,
     crossScalaVersions := buildCrossScalaVersions,
     scalacOptions ++= Seq("-deprecation", "-language:_"),
     javacOptions ++= Seq("-target", "1.8", "-source", "1.8"),
-    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
 
-    resolvers ++= Seq(
-      Resolver.mavenLocal,
-      Resolver.sonatypeRepo("snapshots"),
-      Resolver.sonatypeRepo("releases"),
-      Resolver.typesafeRepo("releases")
-    ),
     testOptions in Test += Tests.Argument("-oDF"),
 
     // test dependencies
@@ -69,11 +61,7 @@ object Common {
     pomIncludeRepository := { _ =>
       false
     },
-    sonatypeProfileName := "org.scalanlp",
-    publishMavenStyle := true,
     licenses := Seq("Apache Public License 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")),
-    publishTo := sonatypePublishTo.value,
-    sonatypeProjectHosting := Some(GitHubHosting("scalanlp", "breeze", "David Hall", "david.lw.hall@gmail.com")),
 
     unmanagedSourceDirectories in Compile ++= {
       CrossVersion.partialVersion(scalaVersion.value) match {
